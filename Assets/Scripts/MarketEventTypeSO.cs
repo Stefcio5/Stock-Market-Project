@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MarketEventTypeSO", menuName = "Scriptable Objects/MarketEventTypeSO")]
 public abstract class MarketEventTypeSO : ScriptableObject
 {
+    public abstract void ApplyEventEffect(MarketManager marketManager, MarketEventSO marketEvent, float effect);
 
 }
