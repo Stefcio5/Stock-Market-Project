@@ -5,26 +5,9 @@ public class PlayerPortfolio : MonoBehaviour
     public float playerCash = 10000f;
     private MarketManager marketManager;
 
-    private void Start()
+    public void Init(MarketManager marketManager)
     {
-        marketManager = FindFirstObjectByType<MarketManager>();
-        if (marketManager == null)
-        {
-            Debug.LogError("MarketManager not found in the scene.");
-        }
-    }
-
-    public bool CanBuyStock(StockDataSO stockData, int quantity)
-    {
-        var stock = marketManager.GetStock(stockData);
-        float totalCost = stock.CurrentPrice * quantity;
-        return totalCost <= playerCash;
-    }
-
-    public bool CanSellStock(StockDataSO stockData, int quantity)
-    {
-        var stock = marketManager.GetStock(stockData);
-        return stock.OwnedShares >= quantity;
+        this.marketManager = marketManager;
     }
 
     public void BuyStock(StockDataSO stockData, int quantity)
@@ -49,5 +32,18 @@ public class PlayerPortfolio : MonoBehaviour
             return;
         }
         stock.SellShares(quantity, ref playerCash);
+    }
+
+    public bool CanBuyStock(StockDataSO stockData, int quantity)
+    {
+        var stock = marketManager.GetStock(stockData);
+        float totalCost = stock.CurrentPrice * quantity;
+        return totalCost <= playerCash;
+    }
+
+    public bool CanSellStock(StockDataSO stockData, int quantity)
+    {
+        var stock = marketManager.GetStock(stockData);
+        return stock.OwnedShares >= quantity;
     }
 }

@@ -1,16 +1,42 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private MarketManager marketManager;
+    [SerializeField] private PlayerPortfolio playerPortfolio;
+    [SerializeField] private EventManager eventManager;
+    [SerializeField] private MarketUIController marketUIController;
+
+    [SerializeField] private int maxTurns = 20;
+    private int currentTurn = 1;
+
+    private void Start()
     {
-        
+        StartGame();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void StartGame()
     {
-        
+        marketManager.InitializeStocks();
+        playerPortfolio.Init(marketManager);
+        marketUIController.GenerateStockUI(marketManager, playerPortfolio);
+    }
+
+    public void NextTurn()
+    {
+        if (currentTurn > maxTurns)
+        {
+            EndGame();
+        }
+
+        currentTurn++;
+        marketManager.UpdatePrices();
+        eventManager.TryTriggerMarketEvent(marketManager);
+    }
+
+    private void EndGame()
+    {
+        throw new NotImplementedException();
     }
 }

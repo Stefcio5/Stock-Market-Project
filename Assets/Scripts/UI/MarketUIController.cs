@@ -6,15 +6,7 @@ public class MarketUIController : MonoBehaviour
     [SerializeField] private GameObject stockUIPrefab;
     [SerializeField] private Transform stockUIContainer;
 
-    [SerializeField] private MarketManager marketManager;
-    [SerializeField] private PlayerPortfolio playerPortfolio;
-
-    private void Start()
-    {
-        GenerateStockUI();
-    }
-
-    private void GenerateStockUI()
+    public void GenerateStockUI(MarketManager marketManager, PlayerPortfolio playerPortfolio)
     {
         foreach (var stock in marketManager.Stocks.Values)
         {

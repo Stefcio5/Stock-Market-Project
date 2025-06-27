@@ -8,12 +8,8 @@ public class MarketManager : MonoBehaviour
     public Dictionary<StockDataSO, Stock> Stocks { get; private set; } = new();
     public float fluctuationFactor = 0.05f;
 
-    private void Awake()
-    {
-        InitializeStocks();
-    }
 
-    private void InitializeStocks()
+    public void InitializeStocks()
     {
         Stocks.Clear();
 
