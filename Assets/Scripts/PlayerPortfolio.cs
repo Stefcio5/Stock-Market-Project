@@ -14,6 +14,19 @@ public class PlayerPortfolio : MonoBehaviour
         }
     }
 
+    public bool CanBuyStock(StockDataSO stockData, int quantity)
+    {
+        var stock = marketManager.GetStock(stockData);
+        float totalCost = stock.CurrentPrice * quantity;
+        return totalCost <= playerCash;
+    }
+
+    public bool CanSellStock(StockDataSO stockData, int quantity)
+    {
+        var stock = marketManager.GetStock(stockData);
+        return stock.OwnedShares >= quantity;
+    }
+
     public void BuyStock(StockDataSO stockData, int quantity)
     {
         var stock = marketManager.GetStock(stockData);

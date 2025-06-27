@@ -92,5 +92,7 @@ public class StockUI : MonoBehaviour
     {
         priceText.text = $"Cena: ${stockInstance.CurrentPrice:F2}";
         ownedText.text = $"Posiadane akcje: {stockInstance.OwnedShares}";
+        buyButton.interactable = portfolio.CanBuyStock(stockInstance.stockData, quantity);
+        sellButton.interactable = portfolio.CanSellStock(stockInstance.stockData, quantity);
     }
 }
