@@ -11,5 +11,6 @@ public class SectorEventType : MarketEventTypeSO
         {
             stock.UpdatePrice(1f + effect);
         }
+        GameEvents.RaiseOnMarketEventTriggered($"Wydarzenie sektora {sector.name}", marketEvent);
     }
 }

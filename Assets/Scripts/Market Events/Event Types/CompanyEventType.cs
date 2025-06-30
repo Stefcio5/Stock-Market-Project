@@ -10,6 +10,7 @@ public class CompanyEventType : MarketEventTypeSO
         if (marketManager.Stocks.TryGetValue(stockData, out Stock stock))
         {
             stock.UpdatePrice(1f + effect);
+            GameEvents.RaiseOnMarketEventTriggered($"Wydarzenie firmy {stockData.stockName}", marketEvent);
         }
         else
         {

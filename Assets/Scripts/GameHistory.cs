@@ -14,17 +14,48 @@ public class GameHistory : MonoBehaviour
 
     private void OnEnable()
     {
+        SubscribeToEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnSubscribeFromEvents();
+    }
+
+    private void SubscribeToEvents()
+    {
+        GameEvents.OnGameStarted += () => AddEntry("Rozpoczęto grę");
+        GameEvents.OnGameEnded += () => AddEntry("Zakończono grę");
+
         GameEvents.OnStockBought += (stock, quantity) =>
             AddEntry($"Kupiono {quantity} akcji {stock.stockData.stockName} po {stock.CurrentPrice:F2}");
 
         GameEvents.OnStockSold += (stock, quantity) =>
             AddEntry($"Sprzedano {quantity} akcji {stock.stockData.stockName} po {stock.CurrentPrice:F2}");
 
-        GameEvents.OnMarketEventTriggered += @event =>
-            AddEntry($"Zdarzenie: {@event.eventName} - {@event.description}");
-
         GameEvents.OnTurnEnded += turn =>
             AddEntry($"Zakończono turę {turn}");
+
+        GameEvents.OnMarketEventTriggered += (eventType, marketEvent) =>
+            AddEntry($"{eventType}: {marketEvent.eventName} - {marketEvent.description}");
+    }
+
+    private void UnSubscribeFromEvents()
+    {
+        GameEvents.OnGameStarted -= () => AddEntry("Rozpoczęto grę");
+        GameEvents.OnGameEnded -= () => AddEntry("Zakończono grę");
+
+        GameEvents.OnStockBought -= (stock, quantity) =>
+            AddEntry($"Kupiono {quantity} akcji {stock.stockData.stockName} po {stock.CurrentPrice:F2}");
+
+        GameEvents.OnStockSold -= (stock, quantity) =>
+            AddEntry($"Sprzedano {quantity} akcji {stock.stockData.stockName} po {stock.CurrentPrice:F2}");
+
+        GameEvents.OnTurnEnded -= turn =>
+            AddEntry($"Zakończono turę {turn}");
+
+        GameEvents.OnMarketEventTriggered -= (eventType, marketEvent) =>
+            AddEntry($"{eventType}: {marketEvent.eventName} - {marketEvent.description}");
     }
 
     public void AddEntry(string text)

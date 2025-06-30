@@ -9,6 +9,7 @@ public class RandomCompanyEventType : MarketEventTypeSO
         if (randomCompany != null)
         {
             randomCompany.UpdatePrice(1f + effect);
+            GameEvents.RaiseOnMarketEventTriggered($"Wydarzenie firmy {randomCompany.stockData.stockName}", marketEvent);
         }
         else
         {

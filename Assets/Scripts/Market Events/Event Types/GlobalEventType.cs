@@ -11,5 +11,6 @@ public class GlobalEventType : MarketEventTypeSO
         {
             stock.UpdatePrice(1f + effect);
         }
+        GameEvents.RaiseOnMarketEventTriggered("Wydarzenie globalne", marketEvent);
     }
 }
