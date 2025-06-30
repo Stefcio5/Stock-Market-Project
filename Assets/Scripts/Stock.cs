@@ -13,6 +13,7 @@ public class Stock
     {
         stockData = data;
         CurrentPrice = stockData.basePrice;
+        PreviousPrice = CurrentPrice;
         OwnedShares = 0;
     }
 
@@ -25,8 +26,6 @@ public class Stock
 
     public float GetTrend()
     {
-        if (PreviousPrice == 0)
-            return 0;
         return (CurrentPrice - PreviousPrice) / PreviousPrice;
     }
 

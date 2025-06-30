@@ -9,7 +9,7 @@ public class GlobalEventType : MarketEventTypeSO
 
         foreach (var stock in allStocks)
         {
-            stock.UpdatePrice(1f + effect);
+            stock.UpdatePrice(effect);
         }
         GameEvents.RaiseOnMarketEventTriggered("Wydarzenie globalne", marketEvent);
     }

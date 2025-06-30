@@ -9,7 +9,7 @@ public class SectorEventType : MarketEventTypeSO
         var sectorStocks = marketManager.GetSectorStocks(sector);
         foreach (var stock in sectorStocks)
         {
-            stock.UpdatePrice(1f + effect);
+            stock.UpdatePrice(effect);
         }
         GameEvents.RaiseOnMarketEventTriggered($"Wydarzenie sektora {sector.name}", marketEvent);
     }

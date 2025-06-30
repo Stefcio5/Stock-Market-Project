@@ -15,6 +15,7 @@ public class MarketEventSO : ScriptableObject
         if (eventType != null)
         {
             eventType.ApplyEventEffect(marketManager, this, effectValue);
+            Debug.Log($"MarketEventSO '{eventName}' applied with effect value: {effectValue}");
         }
         else
         {

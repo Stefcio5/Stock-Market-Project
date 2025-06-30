@@ -513,7 +513,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   marketEvents:
   - {fileID: 11400000, guid: c109ea296f9f9c04aa307d822aec6847, type: 2}
-  frequency: 5
+  - {fileID: 11400000, guid: b9ff44090507bbe489217e6c56f5d3b9, type: 2}
+  - {fileID: 11400000, guid: 2b23b5f2dc4ad6f4ebda93f17399111d, type: 2}
+  - {fileID: 11400000, guid: f66d4ebce8381d74683e7fe4b2074c23, type: 2}
+  - {fileID: 11400000, guid: 84a58bfb43e6c174297ba1ff58e569fc, type: 2}
+  - {fileID: 11400000, guid: 3fd82c79bb5463d499a9e830f3fed4bf, type: 2}
+  - {fileID: 11400000, guid: f29615869f59f8447951302af82efe54, type: 2}
+  - {fileID: 11400000, guid: 62168e7e7c248944483580c2c87d680b, type: 2}
+  - {fileID: 11400000, guid: 0ca137e3acf9daf41b8e7e69d97bcc47, type: 2}
+  - {fileID: 11400000, guid: bd59d928b3ffcfb44a5a09a7bea3299b, type: 2}
+  - {fileID: 11400000, guid: 477bd949dca0bd448bfe0cfa868325a8, type: 2}
+  - {fileID: 11400000, guid: 5ef275196c827ee4fbef1fa1043ed34a, type: 2}
+  - {fileID: 11400000, guid: b5236be3ae8ad3f428e564a43ab229b6, type: 2}
+  - {fileID: 11400000, guid: abbe153bae01cb14f859fb71ba9e465c, type: 2}
+  - {fileID: 11400000, guid: 7a1c730643b0cdd4f887bd4672a2caa4, type: 2}
+  - {fileID: 11400000, guid: d06ebf32de61ee14dac1658f8221180c, type: 2}
+  - {fileID: 11400000, guid: ea432a9c61ef26d4d93a519344dc8cb8, type: 2}
+  frequency: 1
 --- !u!1 &206465954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,8 +1132,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stocks:
+  - {fileID: 11400000, guid: 863093aa671359b41a8fe0dda82e70d3, type: 2}
+  - {fileID: 11400000, guid: f4ae841d1af26e54b933bfe50a5b8cca, type: 2}
   - {fileID: 11400000, guid: c8e33aa02c0f9c04aaa48c35acd165b8, type: 2}
   - {fileID: 11400000, guid: 729ba249a071c0747a7b039ae95b57c9, type: 2}
+  - {fileID: 11400000, guid: dea7ef17f55a52b49bd3083a1d021909, type: 2}
   fluctuationFactor: 0.05
 --- !u!1001 &928998238
 PrefabInstance:
