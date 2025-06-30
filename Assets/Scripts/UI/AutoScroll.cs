@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class AutoScroll : MonoBehaviour
 {
     private ScrollRect scrollRect;
-    [SerializeField] private float scrollDelay = 0.05f;
+    [SerializeField] private float _scrollDelay = 0.05f;
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class AutoScroll : MonoBehaviour
 
     private IEnumerator ScrollToBottomCoroutine()
     {
-        yield return new WaitForSeconds(scrollDelay);
+        yield return new WaitForSeconds(_scrollDelay);
         scrollRect.verticalNormalizedPosition = 0f;
     }
 }

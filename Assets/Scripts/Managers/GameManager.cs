@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MarketManager marketManager;
     [SerializeField] private PlayerPortfolio playerPortfolio;
     [SerializeField] private EventManager eventManager;
+    [SerializeField] private InvestmentAnalyzer investmentAnalyzer;
     [SerializeField] private MarketUIController marketUIController;
 
     [SerializeField] private int maxTurns = 20;
@@ -32,8 +33,9 @@ public class GameManager : MonoBehaviour
     {
         marketManager.InitializeStocks();
         playerPortfolio.Init(marketManager);
+        investmentAnalyzer.Init(marketManager);
         marketUIController.GenerateStockUI(marketManager, playerPortfolio);
-        GameEvents.RaiseOnCashChanged(playerPortfolio.playerCash);
+        GameEvents.RaiseOnCashChanged(playerPortfolio.PlayerCash);
     }
 
     private void NextTurn()
