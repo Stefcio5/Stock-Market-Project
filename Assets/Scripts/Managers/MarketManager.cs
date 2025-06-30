@@ -19,12 +19,28 @@ public class MarketManager : MonoBehaviour
         }
     }
 
-    public void UpdatePrices()
+    public void UpdateCurrentPrices()
     {
         foreach (var stock in Stocks.Values)
         {
             float fluctuation = 1f + Random.Range(-fluctuationFactor, fluctuationFactor);
-            stock.UpdatePrice(fluctuation);
+            stock.UpdateCurrentPrice(fluctuation);
+        }
+    }
+
+    public void CommitPriceChanges()
+    {
+        foreach (var stock in Stocks.Values)
+        {
+            stock.CommitPriceChange();
+        }
+    }
+
+    public void SetPreviousPrices()
+    {
+        foreach (var stock in Stocks.Values)
+        {
+            stock.SetPreviousPrice();
         }
     }
 

@@ -8,7 +8,7 @@ public class RandomCompanyEventType : MarketEventTypeSO
         var randomCompany = marketManager.GetRandomStock();
         if (randomCompany != null)
         {
-            randomCompany.UpdatePrice(effect);
+            randomCompany.UpdateCurrentPrice(effect);
             GameEvents.RaiseOnMarketEventTriggered($"Wydarzenie firmy {randomCompany.stockData.stockName}", marketEvent);
         }
         else

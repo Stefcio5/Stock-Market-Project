@@ -49,8 +49,10 @@ public class GameManager : MonoBehaviour
             return;
         }
         GameEvents.RaiseOnTurnEnded(currentTurn);
-        marketManager.UpdatePrices();
+        marketManager.SetPreviousPrices();
         eventManager.TryTriggerMarketEvent(marketManager);
+        marketManager.UpdateCurrentPrices();
+        marketManager.CommitPriceChanges();
         currentTurn++;
     }
 

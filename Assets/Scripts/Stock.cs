@@ -17,11 +17,19 @@ public class Stock
         OwnedShares = 0;
     }
 
-    public void UpdatePrice(float modifier)
+    public void UpdateCurrentPrice(float modifier)
+    {
+        CurrentPrice = Math.Max(1f, CurrentPrice * modifier);
+    }
+
+    public void CommitPriceChange()
+    {
+        OnPriceChanged?.Invoke();
+    }
+
+    public void SetPreviousPrice()
     {
         PreviousPrice = CurrentPrice;
-        CurrentPrice = Math.Max(1f, CurrentPrice * modifier);
-        OnPriceChanged?.Invoke();
     }
 
     public float GetTrend()
