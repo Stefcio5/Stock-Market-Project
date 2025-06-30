@@ -11,6 +11,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxTurns = 20;
     private int currentTurn = 1;
 
+    private bool isGameOver = false;
+
+    private void OnEnable()
+    {
+        GameEvents.OnNextTurnRequested += NextTurn;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnNextTurnRequested -= NextTurn;
+    }
+
     private void Start()
     {
         StartGame();
@@ -21,22 +33,31 @@ public class GameManager : MonoBehaviour
         marketManager.InitializeStocks();
         playerPortfolio.Init(marketManager);
         marketUIController.GenerateStockUI(marketManager, playerPortfolio);
+        GameEvents.RaiseOnCashChanged(playerPortfolio.playerCash);
     }
 
-    public void NextTurn()
+    private void NextTurn()
     {
-        if (currentTurn > maxTurns)
+        if (isGameOver)
         {
-            EndGame();
+            return;
         }
-
-        currentTurn++;
-        marketManager.UpdatePrices();
+        if (currentTurn >= maxTurns)
+        {
+            isGameOver = true;
+            EndGame();
+            return;
+        }
+        GameEvents.RaiseOnTurnEnded(currentTurn);
         eventManager.TryTriggerMarketEvent(marketManager);
+        marketManager.UpdatePrices();
+        currentTurn++;
     }
 
     private void EndGame()
     {
-        throw new NotImplementedException();
+        isGameOver = true;
+        GameEvents.RaiseOnGameEnded();
+        Debug.Log("Game Over! Total Turns: " + currentTurn);
     }
 }

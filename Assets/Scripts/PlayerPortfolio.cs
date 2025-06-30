@@ -20,6 +20,9 @@ public class PlayerPortfolio : MonoBehaviour
             return;
         }
         stock.BuyShares(quantity, ref playerCash);
+
+        GameEvents.RaiseOnCashChanged(playerCash);
+        GameEvents.RaiseOnStockBought(stock, quantity);
         Debug.Log("Bought " + quantity + "shares of " + stockData.stockName + ". Remaining cash: " + playerCash);
     }
 
@@ -32,6 +35,9 @@ public class PlayerPortfolio : MonoBehaviour
             return;
         }
         stock.SellShares(quantity, ref playerCash);
+
+        GameEvents.RaiseOnCashChanged(playerCash);
+        GameEvents.RaiseOnStockSold(stock, quantity);
     }
 
     public bool CanBuyStock(StockDataSO stockData, int quantity)
