@@ -7,9 +7,6 @@ public class StockUI : MonoBehaviour
 {
     [Header("References")]
     public TextMeshProUGUI stockNameText;
-    // public Image trendIcon;
-    // public Sprite upArrow;
-    // public Sprite downArrow;
     public TextMeshProUGUI trendText;
     public TextMeshProUGUI priceText;
     public TextMeshProUGUI ownedText;
@@ -26,6 +23,7 @@ public class StockUI : MonoBehaviour
 
     private int quantity = 1;
 
+
     public void Init(Stock stock, PlayerPortfolio playerPortfolio)
     {
         stockInstance = stock;
@@ -34,6 +32,7 @@ public class StockUI : MonoBehaviour
         quantityInput.text = quantity.ToString();
         SetupButtons();
         UpdateUI();
+        stockInstance.OnPriceChanged += UpdateUI;
     }
 
     private void SetupButtons()
@@ -92,7 +91,26 @@ public class StockUI : MonoBehaviour
     {
         priceText.text = $"Cena: ${stockInstance.CurrentPrice:F2}";
         ownedText.text = $"Posiadane akcje: {stockInstance.OwnedShares}";
+        SetTrendText(stockInstance.GetTrend());
         buyButton.interactable = portfolio.CanBuyStock(stockInstance.stockData, quantity);
         sellButton.interactable = portfolio.CanSellStock(stockInstance.stockData, quantity);
+    }
+
+    private void SetTrendText(float trendValue)
+    {
+        if (trendValue > 0)
+        {
+            trendText.color = Color.green;
+            trendText.text = $"+{trendValue * 100:F2}%";
+        }
+        else if (trendValue < 0)
+        {
+            trendText.color = Color.red;
+            trendText.text = $"{trendValue * 100:F2}%";
+        }
+        else
+        {
+            trendText.color = Color.white;
+        }
     }
 }
