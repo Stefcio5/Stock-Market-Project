@@ -29,6 +29,11 @@ public class MarketManager : MonoBehaviour
     }
 
     public Stock GetStock(StockDataSO stockData) => Stocks[stockData];
+    public Stock GetRandomStock()
+    {
+        int randomIndex = Random.Range(0, Stocks.Count);
+        return Stocks.ElementAt(randomIndex).Value;
+    }
     public List<Stock> GetSectorStocks(SectorSO sector) => Stocks.Values
         .Where(stock => stock.stockData.sectors.Contains(sector))
         .ToList();
