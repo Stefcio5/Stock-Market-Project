@@ -7,4 +7,5 @@ public class StockDataSO : ScriptableObject
     public string stockName;
     public float basePrice;
     public List<SectorSO> sectors;
+    public int startingShares = 1000;
 }
