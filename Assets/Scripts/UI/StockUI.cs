@@ -6,18 +6,18 @@ using UnityEngine.UI;
 public class StockUI : MonoBehaviour
 {
     [Header("References")]
-    public TextMeshProUGUI stockNameText;
-    public TextMeshProUGUI trendText;
-    public TextMeshProUGUI priceText;
-    public TextMeshProUGUI ownedText;
-    public TextMeshProUGUI averageBuyPriceText;
+    [SerializeField] private TextMeshProUGUI stockNameText;
+    [SerializeField] private TextMeshProUGUI trendText;
+    [SerializeField] private TextMeshProUGUI priceText;
+    [SerializeField] private TextMeshProUGUI ownedText;
+    [SerializeField] private TextMeshProUGUI averageBuyPriceText;
 
-    public TMP_InputField quantityInput;
-    public Button minusButton;
-    public Button plusButton;
+    [SerializeField] private TMP_InputField quantityInput;
+    [SerializeField] private Button minusButton;
+    [SerializeField] private Button plusButton;
 
-    public Button buyButton;
-    public Button sellButton;
+    [SerializeField] private Button buyButton;
+    [SerializeField] private Button sellButton;
 
     private Stock stockInstance;
     private PlayerPortfolio portfolio;
@@ -31,18 +31,36 @@ public class StockUI : MonoBehaviour
         portfolio = playerPortfolio;
         stockNameText.text = stock.stockData.stockName;
         quantityInput.text = quantity.ToString();
-        SetupButtons();
+        AddButtonListeners();
         UpdateUI();
         stockInstance.OnPriceChanged += UpdateUI;
     }
 
-    private void SetupButtons()
+    private void OnDisable()
+    {
+        if (stockInstance != null)
+        {
+            stockInstance.OnPriceChanged -= UpdateUI;
+        }
+        RemoveButtonListeners();
+    }
+
+    private void AddButtonListeners()
     {
         buyButton.onClick.AddListener(OnBuyButtonClicked);
         sellButton.onClick.AddListener(OnSellButtonClicked);
         plusButton.onClick.AddListener(OnPlusButtonClicked);
         minusButton.onClick.AddListener(OnMinusButtonClicked);
         quantityInput.onValueChanged.AddListener(OnQuantityInputChanged);
+    }
+
+    private void RemoveButtonListeners()
+    {
+        buyButton.onClick.RemoveListener(OnBuyButtonClicked);
+        sellButton.onClick.RemoveListener(OnSellButtonClicked);
+        plusButton.onClick.RemoveListener(OnPlusButtonClicked);
+        minusButton.onClick.RemoveListener(OnMinusButtonClicked);
+        quantityInput.onValueChanged.RemoveListener(OnQuantityInputChanged);
     }
 
     private void OnBuyButtonClicked()

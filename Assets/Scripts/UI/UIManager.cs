@@ -26,11 +26,11 @@ public class UIManager : MonoBehaviour
 
     private void UpdateCashUI(float newCash)
     {
-        cashText.text = $"Cash: ${newCash:F2}";
+        cashText.text = $"Stan konta: ${newCash:F2}";
     }
 
     private void UpdateTurnUI(int turn)
     {
-        turnText.text = $"Turn: {turn + 1}";
+        turnText.text = $"Tura: {turn + 1}";
     }
 }

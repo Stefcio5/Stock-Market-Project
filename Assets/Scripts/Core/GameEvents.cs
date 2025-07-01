@@ -4,6 +4,7 @@ public static class GameEvents
 {
     public static event Action OnGameStarted;
     public static event Action OnGameEnded;
+    public static event Action OnStartNewGame;
 
     public static event Action<Stock, int> OnStockBought;
     public static event Action<Stock, int> OnStockSold;
@@ -14,6 +15,7 @@ public static class GameEvents
 
     public static void RaiseOnGameStarted() => OnGameStarted?.Invoke();
     public static void RaiseOnGameEnded() => OnGameEnded?.Invoke();
+    public static void RaiseOnStartNewGame() => OnStartNewGame?.Invoke();
     public static void RaiseOnStockBought(Stock stock, int quantity) => OnStockBought?.Invoke(stock, quantity);
     public static void RaiseOnStockSold(Stock stock, int quantity) => OnStockSold?.Invoke(stock, quantity);
     public static void RaiseOnCashChanged(float cash) => OnCashChanged?.Invoke(cash);

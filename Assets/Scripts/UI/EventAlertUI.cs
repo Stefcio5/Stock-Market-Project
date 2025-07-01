@@ -13,12 +13,12 @@ public class EventAlertUI : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnMarketEventTriggered += ShowAlertNotification;
-        GameEvents.OnTurnEnded += (t) => HideAlertNotification();
+        GameEvents.OnTurnEnded += OnTurnEnded;
     }
     private void OnDisable()
     {
         GameEvents.OnMarketEventTriggered -= ShowAlertNotification;
-        GameEvents.OnTurnEnded -= (t) => HideAlertNotification();
+        GameEvents.OnTurnEnded -= OnTurnEnded;
     }
     private void ShowAlertNotification(string eventType, MarketEventSO marketEvent)
     {
@@ -39,6 +39,11 @@ public class EventAlertUI : MonoBehaviour
         _alertText.text = $"{eventType}: {marketEvent.eventName} - {marketEvent.description}";
         _currentTween = _alertPanel.transform.DOLocalMove(_endPosition.localPosition, 0.5f)
             .SetEase(Ease.OutBack);
+    }
+
+    private void OnTurnEnded(int turn)
+    {
+        HideAlertNotification();
     }
 
     private void HideAlertNotification(Action onComplete = null)

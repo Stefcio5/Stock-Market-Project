@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SummaryUI : MonoBehaviour
 {
@@ -7,7 +8,6 @@ public class SummaryUI : MonoBehaviour
     [SerializeField] private PlayerPortfolio _playerPortfolio;
     [SerializeField] private GameObject _summaryPanel;
     [SerializeField] private TMP_Text summaryText;
-    [SerializeField] private TMP_Text _finalCashText;
     [SerializeField] private TMP_Text _finalPortfolioValueText;
     [SerializeField] private TMP_Text _finalPercentageProfitText;
     [SerializeField] private TMP_Text _bestInvestmentText;
@@ -15,14 +15,21 @@ public class SummaryUI : MonoBehaviour
 
     [SerializeField] private Transform _historyContent;
     [SerializeField] private GameObject _historyContentPrefab;
+    [SerializeField] private Button _startNewGameButton;
 
     private void OnEnable()
     {
         GameEvents.OnGameEnded += ShowSummaryPanel;
+        _startNewGameButton.onClick.AddListener(() =>
+        {
+            _summaryPanel.SetActive(false);
+            GameEvents.RaiseOnStartNewGame();
+        });
     }
     private void OnDisable()
     {
         GameEvents.OnGameEnded -= ShowSummaryPanel;
+        _startNewGameButton.onClick.RemoveAllListeners();
     }
 
     private void ShowSummaryPanel()
@@ -47,8 +54,7 @@ public class SummaryUI : MonoBehaviour
     private void UpdateFinalPercentageProfitText()
     {
         float finalPercentageProfit = _playerPortfolio.GetProfitPercentage();
-        string sign = finalPercentageProfit > 0 ? "+" : "";
-        _finalPercentageProfitText.text = $"Zysk procentowy: {sign}{finalPercentageProfit:F2}%";
+        SetFinalPercentageProfitText(finalPercentageProfit);
     }
 
     public void UpdateBestAndWorstInvestments(Stock bestStock, float bestProfit, Stock worstStock, float worstProfit)
@@ -61,7 +67,7 @@ public class SummaryUI : MonoBehaviour
     {
         string stockName = stock != null ? stock.stockData.stockName : "-";
         string sign = profit >= 0 ? "+" : "";
-        return $"{label}: {stockName} - Zysk: {sign}${profit:F2}";
+        return $"{label}: {stockName} - Zysk: ${sign}{profit:F2}";
     }
 
     private void PopulateHistory()
@@ -70,6 +76,24 @@ public class SummaryUI : MonoBehaviour
         {
             var go = Instantiate(_historyContentPrefab, _historyContent);
             go.GetComponentInChildren<TMP_Text>().text = entry;
+        }
+    }
+
+    private void SetFinalPercentageProfitText(float value)
+    {
+        if (value > 0)
+        {
+            _finalPercentageProfitText.color = Color.green;
+            _finalPercentageProfitText.text = $"Zysk procentowy: +{value:F2}%";
+        }
+        else if (value < 0)
+        {
+            _finalPercentageProfitText.color = Color.red;
+            _finalPercentageProfitText.text = $"Zysk procentowy: {value:F2}%";
+        }
+        else
+        {
+            _finalPercentageProfitText.color = Color.white;
         }
     }
 }
