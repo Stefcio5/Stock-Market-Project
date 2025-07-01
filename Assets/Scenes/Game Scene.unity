@@ -665,7 +665,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7a1c730643b0cdd4f887bd4672a2caa4, type: 2}
   - {fileID: 11400000, guid: d06ebf32de61ee14dac1658f8221180c, type: 2}
   - {fileID: 11400000, guid: ea432a9c61ef26d4d93a519344dc8cb8, type: 2}
-  frequency: 3
+  _eventFrequency: 3
 --- !u!1 &206465954
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +675,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 206465955}
+  - component: {fileID: 206465956}
   m_Layer: 5
   m_Name: Stock Market UI
   m_TagString: Untagged
@@ -702,6 +703,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &206465956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206465954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89bd966000b311a438c639ebfe62af96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stockUIPrefab: {fileID: 538589661466508278, guid: c63fed7285ffbd340b919bd37d999598, type: 3}
+  _stockUIContentContainer: {fileID: 1464769869}
 --- !u!1 &295192724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,6 +1328,7 @@ MonoBehaviour:
   _alertText: {fileID: 104164411}
   _startPosition: {fileID: 777329818}
   _endPosition: {fileID: 356761094}
+  _alertDuration: 0.5
 --- !u!114 &695681473 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8136268647352343818, guid: d19904921f28ce348bdaa600ba27ca3a, type: 3}
@@ -1514,13 +1530,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 898840df76e7457499c7856213b23e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fluctuationFactor: 0.05
   stocks:
   - {fileID: 11400000, guid: 863093aa671359b41a8fe0dda82e70d3, type: 2}
   - {fileID: 11400000, guid: f4ae841d1af26e54b933bfe50a5b8cca, type: 2}
   - {fileID: 11400000, guid: c8e33aa02c0f9c04aaa48c35acd165b8, type: 2}
   - {fileID: 11400000, guid: 729ba249a071c0747a7b039ae95b57c9, type: 2}
   - {fileID: 11400000, guid: dea7ef17f55a52b49bd3083a1d021909, type: 2}
-  fluctuationFactor: 0.05
 --- !u!1001 &928998238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1680,9 +1696,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a500a154201a74d9b9d5e9a3eb0d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entries: []
-  historyContent: {fileID: 418751613}
-  historyItemPrefab: {fileID: 2525500053367289094, guid: 1e0b431621798c14c9f1063f20ea9d24, type: 3}
+  _historyContentTransform: {fileID: 418751613}
+  _historyContentPrefab: {fileID: 2525500053367289094, guid: 1e0b431621798c14c9f1063f20ea9d24, type: 3}
 --- !u!4 &937908105
 Transform:
   m_ObjectHideFlags: 0
@@ -2227,12 +2242,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b775865d5bece4ab90a605634af01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  marketManager: {fileID: 858489759}
-  playerPortfolio: {fileID: 140786476}
-  eventManager: {fileID: 159047366}
-  investmentAnalyzer: {fileID: 295192725}
-  marketUIController: {fileID: 1580480045}
-  maxTurns: 20
+  _marketManager: {fileID: 858489759}
+  _playerPortfolio: {fileID: 140786476}
+  _eventManager: {fileID: 159047366}
+  _investmentAnalyzer: {fileID: 295192725}
+  _marketUIController: {fileID: 206465956}
+  _maxTurns: 20
 --- !u!1 &1328780235
 GameObject:
   m_ObjectHideFlags: 0
@@ -2426,7 +2441,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1484968037}
-  - {fileID: 1580480046}
   - {fileID: 937908105}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2536,9 +2550,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c0c710cea1bcb4fb5cfbdbbcda24c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashText: {fileID: 695681473}
-  turnText: {fileID: 1074509325}
-  nextTurnButton: {fileID: 2045686335}
+  _cashText: {fileID: 695681473}
+  _turnText: {fileID: 1074509325}
+  _nextTurnButton: {fileID: 2045686335}
 --- !u!4 &1484968037
 Transform:
   m_ObjectHideFlags: 0
@@ -2747,52 +2761,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
---- !u!1 &1580480044
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1580480046}
-  - component: {fileID: 1580480045}
-  m_Layer: 0
-  m_Name: Market UI Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1580480045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580480044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89bd966000b311a438c639ebfe62af96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stockUIPrefab: {fileID: 538589661466508278, guid: c63fed7285ffbd340b919bd37d999598, type: 3}
-  stockUIContainer: {fileID: 1464769869}
---- !u!4 &1580480046
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580480044}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1426379889}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1661981897
 GameObject:
   m_ObjectHideFlags: 0
@@ -3546,6 +3514,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048881251}
   m_CullTransparentMesh: 1
+--- !u!1 &2086413425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2086413427}
+  - component: {fileID: 2086413426}
+  m_Layer: 0
+  m_Name: Scene Reloader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2086413426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086413425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81155a543f86aee47b8e4456b2929383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameSceneName: Game Scene
+--- !u!4 &2086413427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086413425}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5250237012602870636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3891,6 +3904,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3235888198344781093, guid: 3850bf6509a9a8e459ef085bff717363, type: 3}
+      propertyPath: m_text
+      value: Nowa Tura
+      objectReference: {fileID: 0}
     - target: {fileID: 5841606562440426706, guid: 3850bf6509a9a8e459ef085bff717363, type: 3}
       propertyPath: m_Name
       value: Next Turn Button
@@ -4012,6 +4029,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turn UI
       objectReference: {fileID: 0}
+    - target: {fileID: 7789013768574062956, guid: 868a602805eaa3445a5fbe0e01dede0b, type: 3}
+      propertyPath: m_text
+      value: 'Tura: 1'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4027,3 +4048,4 @@ SceneRoots:
   - {fileID: 1426379889}
   - {fileID: 1916948188}
   - {fileID: 1769314128}
+  - {fileID: 2086413427}

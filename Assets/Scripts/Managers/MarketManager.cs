@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MarketManager : MonoBehaviour
 {
+    [SerializeField] private float _fluctuationFactor = 0.05f;
     public List<StockDataSO> stocks;
     public Dictionary<StockDataSO, Stock> Stocks { get; private set; } = new();
-    public float fluctuationFactor = 0.05f;
 
 
     public void InitializeStocks()
@@ -23,7 +23,7 @@ public class MarketManager : MonoBehaviour
     {
         foreach (var stock in Stocks.Values)
         {
-            float fluctuation = 1f + Random.Range(-fluctuationFactor, fluctuationFactor);
+            float fluctuation = 1f + Random.Range(-_fluctuationFactor, _fluctuationFactor);
             stock.UpdateCurrentPrice(fluctuation);
         }
     }

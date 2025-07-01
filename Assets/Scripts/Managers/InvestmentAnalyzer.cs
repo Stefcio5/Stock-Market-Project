@@ -1,15 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InvestmentAnalyzer : MonoBehaviour
 {
-    [SerializeField] private List<TransactionEntry> transactionHistory = new List<TransactionEntry>();
-    [SerializeField] private Dictionary<Stock, float> stockInvestmentReturns = new Dictionary<Stock, float>();
-    private MarketManager marketManager;
-    private PlayerPortfolio playerPortfolio;
+    private List<TransactionEntry> _transactionHistory = new List<TransactionEntry>();
+    private Dictionary<Stock, float> _stockInvestmentReturns = new Dictionary<Stock, float>();
+    private MarketManager _marketManager;
+    private PlayerPortfolio _playerPortfolio;
 
     public static InvestmentAnalyzer Instance;
 
@@ -27,17 +25,16 @@ public class InvestmentAnalyzer : MonoBehaviour
 
     public void Init(MarketManager marketManager, PlayerPortfolio playerPortfolio)
     {
-        this.marketManager = marketManager;
-        this.playerPortfolio = playerPortfolio;
-        transactionHistory.Clear();
-        stockInvestmentReturns.Clear();
+        _marketManager = marketManager;
+        _playerPortfolio = playerPortfolio;
+        _transactionHistory.Clear();
+        _stockInvestmentReturns.Clear();
     }
 
     void OnEnable()
     {
         GameEvents.OnStockBought += AddBuyTransactionEntry;
         GameEvents.OnStockSold += AddSellTransactionEntry;
-        GameEvents.OnGameEnded += () => CalculateBestAndWorstInvestmentReturn();
     }
 
 
@@ -45,44 +42,43 @@ public class InvestmentAnalyzer : MonoBehaviour
     {
         GameEvents.OnStockBought -= AddBuyTransactionEntry;
         GameEvents.OnStockSold -= AddSellTransactionEntry;
-        GameEvents.OnGameEnded -= () => CalculateBestAndWorstInvestmentReturn();
     }
 
     private void AddBuyTransactionEntry(Stock stock, int quantity)
     {
         var entry = new TransactionEntry(stock, quantity, stock.CurrentPrice, true);
-        transactionHistory.Add(entry);
+        _transactionHistory.Add(entry);
     }
     private void AddSellTransactionEntry(Stock stock, int quantity)
     {
         var entry = new TransactionEntry(stock, quantity, stock.CurrentPrice, false);
-        transactionHistory.Add(entry);
+        _transactionHistory.Add(entry);
     }
 
     public (Stock bestStock, float bestProfit, Stock worstStock, float worstProfit) CalculateBestAndWorstInvestmentReturn()
     {
-        stockInvestmentReturns.Clear();
+        _stockInvestmentReturns.Clear();
 
-        foreach (var stock in marketManager.Stocks.Values)
+        foreach (var stock in _marketManager.Stocks.Values)
         {
-            float bought = transactionHistory
+            float bought = _transactionHistory
                 .FindAll(entry => entry.stock == stock && entry.isBought)
                 .Sum(entry => entry.pricePerUnit * entry.quantity);
 
-            float sold = transactionHistory
+            float sold = _transactionHistory
                 .FindAll(entry => entry.stock == stock && !entry.isBought)
                 .Sum(entry => entry.pricePerUnit * entry.quantity);
 
-            float currentValue = stock.CurrentPrice * playerPortfolio.GetOwnedShares(stock.stockData);
+            float currentValue = stock.CurrentPrice * _playerPortfolio.GetOwnedShares(stock.stockData);
 
             float profit = sold - bought + currentValue;
-            stockInvestmentReturns[stock] = profit;
+            _stockInvestmentReturns[stock] = profit;
         }
 
-        if (stockInvestmentReturns.Count == 0)
+        if (_stockInvestmentReturns.Count == 0)
             return (null, 0f, null, 0f);
 
-        var sorted = stockInvestmentReturns.OrderBy(kv => kv.Value).ToList();
+        var sorted = _stockInvestmentReturns.OrderBy(kv => kv.Value).ToList();
 
         var worst = sorted.First();
         var best = sorted.Last();

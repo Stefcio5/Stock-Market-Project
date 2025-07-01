@@ -4,17 +4,17 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
     public List<MarketEventSO> marketEvents;
-    [SerializeField] private int frequency = 5;
+    [SerializeField] private int _eventFrequency = 3;
 
-    private int turnsSinceLastEvent = 0;
+    private int _turnsSinceLastEvent = 0;
 
     public bool TryTriggerMarketEvent(MarketManager marketManager)
     {
-        turnsSinceLastEvent++;
+        _turnsSinceLastEvent++;
 
-        if (turnsSinceLastEvent >= frequency)
+        if (_turnsSinceLastEvent >= _eventFrequency)
         {
-            turnsSinceLastEvent = 0;
+            _turnsSinceLastEvent = 0;
 
             if (marketEvents.Count > 0)
             {

@@ -5,29 +5,12 @@ using UnityEngine;
 
 public class GameHistory : MonoBehaviour
 {
-    public List<string> entries = new();
 
-    [SerializeField] private Transform historyContent;
-    [SerializeField] private GameObject historyItemPrefab;
+    [SerializeField] private Transform _historyContentTransform;
+    [SerializeField] private GameObject _historyContentPrefab;
+    private List<string> _entries = new();
 
     public static event Action OnEntryAdded;
-
-    private Action _onGameStarted;
-    private Action _onGameEnded;
-    private Action<Stock, int> _onStockBought;
-    private Action<Stock, int> _onStockSold;
-    private Action<int> _onTurnEnded;
-    private Action<string, MarketEventSO> _onMarketEventTriggered;
-
-    private void Awake()
-    {
-        _onGameStarted = OnGameStarted;
-        _onGameEnded = OnGameEnded;
-        _onStockBought = OnStockBought;
-        _onStockSold = OnStockSold;
-        _onTurnEnded = OnTurnEnded;
-        _onMarketEventTriggered = OnMarketEventTriggered;
-    }
 
     private void OnEnable()
     {
@@ -42,22 +25,22 @@ public class GameHistory : MonoBehaviour
 
     private void SubscribeToEvents()
     {
-        GameEvents.OnGameStarted += _onGameStarted;
-        GameEvents.OnGameEnded += _onGameEnded;
-        GameEvents.OnStockBought += _onStockBought;
-        GameEvents.OnStockSold += _onStockSold;
-        GameEvents.OnTurnEnded += _onTurnEnded;
-        GameEvents.OnMarketEventTriggered += _onMarketEventTriggered;
+        GameEvents.OnGameStarted += OnGameStarted;
+        GameEvents.OnGameEnded += OnGameEnded;
+        GameEvents.OnStockBought += OnStockBought;
+        GameEvents.OnStockSold += OnStockSold;
+        GameEvents.OnTurnEnded += OnTurnEnded;
+        GameEvents.OnMarketEventTriggered += OnMarketEventTriggered;
     }
 
     private void UnSubscribeFromEvents()
     {
-        GameEvents.OnGameStarted -= _onGameStarted;
-        GameEvents.OnGameEnded -= _onGameEnded;
-        GameEvents.OnStockBought -= _onStockBought;
-        GameEvents.OnStockSold -= _onStockSold;
-        GameEvents.OnTurnEnded -= _onTurnEnded;
-        GameEvents.OnMarketEventTriggered -= _onMarketEventTriggered;
+        GameEvents.OnGameStarted -= OnGameStarted;
+        GameEvents.OnGameEnded -= OnGameEnded;
+        GameEvents.OnStockBought -= OnStockBought;
+        GameEvents.OnStockSold -= OnStockSold;
+        GameEvents.OnTurnEnded -= OnTurnEnded;
+        GameEvents.OnMarketEventTriggered -= OnMarketEventTriggered;
     }
 
     private void OnGameStarted() => AddEntry("Rozpoczęto grę");
@@ -72,19 +55,19 @@ public class GameHistory : MonoBehaviour
 
     public void AddEntry(string text)
     {
-        entries.Add(text);
-        var go = Instantiate(historyItemPrefab, historyContent);
+        _entries.Add(text);
+        var go = Instantiate(_historyContentPrefab, _historyContentTransform);
         go.GetComponentInChildren<TMP_Text>().text = text;
         OnEntryAdded?.Invoke();
     }
 
     public void Clear()
     {
-        entries.Clear();
+        _entries.Clear();
     }
 
     public List<string> GetEntries()
     {
-        return entries;
+        return _entries;
     }
 }

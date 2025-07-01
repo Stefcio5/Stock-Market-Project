@@ -8,6 +8,8 @@ public class EventAlertUI : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI _alertText;
     [SerializeField] private Transform _startPosition;
     [SerializeField] private Transform _endPosition;
+
+    [SerializeField] private float _alertDuration = 0.5f;
     private Tween _currentTween;
 
     private void OnEnable()
@@ -37,7 +39,7 @@ public class EventAlertUI : MonoBehaviour
         _alertPanel.transform.position = _startPosition.position;
         _alertPanel.SetActive(true);
         _alertText.text = $"{eventType}: {marketEvent.eventName} - {marketEvent.description}";
-        _currentTween = _alertPanel.transform.DOLocalMove(_endPosition.localPosition, 0.5f)
+        _currentTween = _alertPanel.transform.DOLocalMove(_endPosition.localPosition, _alertDuration)
             .SetEase(Ease.OutBack);
     }
 
@@ -50,7 +52,7 @@ public class EventAlertUI : MonoBehaviour
     {
         if (_alertPanel.activeSelf)
         {
-            _currentTween = _alertPanel.transform.DOLocalMove(_startPosition.localPosition, 0.5f)
+            _currentTween = _alertPanel.transform.DOLocalMove(_startPosition.localPosition, _alertDuration)
                 .SetEase(Ease.InBack)
                 .OnComplete(() =>
                 {

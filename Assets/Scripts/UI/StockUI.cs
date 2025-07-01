@@ -6,87 +6,87 @@ using UnityEngine.UI;
 public class StockUI : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private TextMeshProUGUI stockNameText;
-    [SerializeField] private TextMeshProUGUI trendText;
-    [SerializeField] private TextMeshProUGUI priceText;
-    [SerializeField] private TextMeshProUGUI ownedText;
-    [SerializeField] private TextMeshProUGUI averageBuyPriceText;
+    [SerializeField] private TextMeshProUGUI _stockNameText;
+    [SerializeField] private TextMeshProUGUI _trendText;
+    [SerializeField] private TextMeshProUGUI _priceText;
+    [SerializeField] private TextMeshProUGUI _ownedText;
+    [SerializeField] private TextMeshProUGUI _averageBuyPriceText;
 
-    [SerializeField] private TMP_InputField quantityInput;
-    [SerializeField] private Button minusButton;
-    [SerializeField] private Button plusButton;
+    [SerializeField] private TMP_InputField _quantityInput;
+    [SerializeField] private Button _minusButton;
+    [SerializeField] private Button _plusButton;
 
-    [SerializeField] private Button buyButton;
-    [SerializeField] private Button sellButton;
+    [SerializeField] private Button _buyButton;
+    [SerializeField] private Button _sellButton;
 
-    private Stock stockInstance;
-    private PlayerPortfolio portfolio;
+    private Stock _stock;
+    private PlayerPortfolio _portfolio;
 
-    private int quantity = 1;
+    private int _quantity = 1;
 
 
     public void Init(Stock stock, PlayerPortfolio playerPortfolio)
     {
-        stockInstance = stock;
-        portfolio = playerPortfolio;
-        stockNameText.text = stock.stockData.stockName;
-        quantityInput.text = quantity.ToString();
+        _stock = stock;
+        _portfolio = playerPortfolio;
+        _stockNameText.text = stock.stockData.stockName;
+        _quantityInput.text = _quantity.ToString();
         AddButtonListeners();
         UpdateUI();
-        stockInstance.OnPriceChanged += UpdateUI;
+        _stock.OnPriceChanged += UpdateUI;
     }
 
     private void OnDisable()
     {
-        if (stockInstance != null)
+        if (_stock != null)
         {
-            stockInstance.OnPriceChanged -= UpdateUI;
+            _stock.OnPriceChanged -= UpdateUI;
         }
         RemoveButtonListeners();
     }
 
     private void AddButtonListeners()
     {
-        buyButton.onClick.AddListener(OnBuyButtonClicked);
-        sellButton.onClick.AddListener(OnSellButtonClicked);
-        plusButton.onClick.AddListener(OnPlusButtonClicked);
-        minusButton.onClick.AddListener(OnMinusButtonClicked);
-        quantityInput.onValueChanged.AddListener(OnQuantityInputChanged);
+        _buyButton.onClick.AddListener(OnBuyButtonClicked);
+        _sellButton.onClick.AddListener(OnSellButtonClicked);
+        _plusButton.onClick.AddListener(OnPlusButtonClicked);
+        _minusButton.onClick.AddListener(OnMinusButtonClicked);
+        _quantityInput.onValueChanged.AddListener(OnQuantityInputChanged);
     }
 
     private void RemoveButtonListeners()
     {
-        buyButton.onClick.RemoveListener(OnBuyButtonClicked);
-        sellButton.onClick.RemoveListener(OnSellButtonClicked);
-        plusButton.onClick.RemoveListener(OnPlusButtonClicked);
-        minusButton.onClick.RemoveListener(OnMinusButtonClicked);
-        quantityInput.onValueChanged.RemoveListener(OnQuantityInputChanged);
+        _buyButton.onClick.RemoveListener(OnBuyButtonClicked);
+        _sellButton.onClick.RemoveListener(OnSellButtonClicked);
+        _plusButton.onClick.RemoveListener(OnPlusButtonClicked);
+        _minusButton.onClick.RemoveListener(OnMinusButtonClicked);
+        _quantityInput.onValueChanged.RemoveListener(OnQuantityInputChanged);
     }
 
     private void OnBuyButtonClicked()
     {
-        portfolio.BuyStock(stockInstance.stockData, quantity);
+        _portfolio.BuyStock(_stock.stockData, _quantity);
         UpdateUI();
     }
 
     private void OnSellButtonClicked()
     {
-        portfolio.SellStock(stockInstance.stockData, quantity);
+        _portfolio.SellStock(_stock.stockData, _quantity);
         UpdateUI();
     }
 
     private void OnPlusButtonClicked()
     {
-        quantity++;
-        OnQuantityInputChanged(quantity.ToString());
+        _quantity++;
+        OnQuantityInputChanged(_quantity.ToString());
         UpdateUI();
     }
 
     private void OnMinusButtonClicked()
     {
-        if (quantity <= 1) return;
-        quantity--;
-        OnQuantityInputChanged(quantity.ToString());
+        if (_quantity <= 1) return;
+        _quantity--;
+        OnQuantityInputChanged(_quantity.ToString());
         UpdateUI();
     }
 
@@ -94,43 +94,43 @@ public class StockUI : MonoBehaviour
     {
         if (int.TryParse(arg0, out int newQuantity) && newQuantity > 0)
         {
-            quantity = newQuantity;
-            quantityInput.text = quantity.ToString();
+            _quantity = newQuantity;
+            _quantityInput.text = _quantity.ToString();
             UpdateUI();
         }
         else
         {
-            quantity = 1;
-            quantityInput.text = "1";
+            _quantity = 1;
+            _quantityInput.text = "1";
             UpdateUI();
         }
     }
 
     private void UpdateUI()
     {
-        priceText.text = $"Cena: ${stockInstance.CurrentPrice:F2}";
-        ownedText.text = $"Posiadane akcje: {portfolio.GetOwnedShares(stockInstance.stockData)}";
-        averageBuyPriceText.text = $"Średnia cena zakupu: ${portfolio.GetAverageBuyPrice(stockInstance.stockData):F2}";
-        SetTrendText(stockInstance.GetTrend());
-        buyButton.interactable = portfolio.CanBuyStock(stockInstance.stockData, quantity);
-        sellButton.interactable = portfolio.CanSellStock(stockInstance.stockData, quantity);
+        _priceText.text = $"Cena: ${_stock.CurrentPrice:F2}";
+        _ownedText.text = $"Posiadane akcje: {_portfolio.GetOwnedShares(_stock.stockData)}";
+        _averageBuyPriceText.text = $"Średnia cena zakupu: ${_portfolio.GetAverageBuyPrice(_stock.stockData):F2}";
+        SetTrendText(_stock.GetTrend());
+        _buyButton.interactable = _portfolio.CanBuyStock(_stock.stockData, _quantity);
+        _sellButton.interactable = _portfolio.CanSellStock(_stock.stockData, _quantity);
     }
 
     private void SetTrendText(float trendValue)
     {
         if (trendValue > 0)
         {
-            trendText.color = Color.green;
-            trendText.text = $"+{trendValue * 100:F2}%";
+            _trendText.color = Color.green;
+            _trendText.text = $"+{trendValue * 100:F2}%";
         }
         else if (trendValue < 0)
         {
-            trendText.color = Color.red;
-            trendText.text = $"{trendValue * 100:F2}%";
+            _trendText.color = Color.red;
+            _trendText.text = $"{trendValue * 100:F2}%";
         }
         else
         {
-            trendText.color = Color.white;
+            _trendText.color = Color.white;
         }
     }
 }

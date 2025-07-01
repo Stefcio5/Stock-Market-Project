@@ -29,7 +29,6 @@ public class SceneReloader : MonoBehaviour
 
     public void ReloadGameScene()
     {
-        //SceneManager.UnloadSceneAsync(_gameSceneName);
         SceneManager.LoadScene(_gameSceneName);
     }
 }

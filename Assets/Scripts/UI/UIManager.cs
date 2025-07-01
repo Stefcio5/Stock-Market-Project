@@ -4,16 +4,16 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text cashText;
-    [SerializeField] private TMP_Text turnText;
-    [SerializeField] private Button nextTurnButton;
+    [SerializeField] private TMP_Text _cashText;
+    [SerializeField] private TMP_Text _turnText;
+    [SerializeField] private Button _nextTurnButton;
 
     private void OnEnable()
     {
         GameEvents.OnCashChanged += UpdateCashUI;
         GameEvents.OnTurnEnded += UpdateTurnUI;
 
-        nextTurnButton.onClick.AddListener(() => GameEvents.RaiseOnNextTurnRequested());
+        _nextTurnButton.onClick.AddListener(() => GameEvents.RaiseOnNextTurnRequested());
     }
 
     private void OnDisable()
@@ -21,16 +21,16 @@ public class UIManager : MonoBehaviour
         GameEvents.OnCashChanged -= UpdateCashUI;
         GameEvents.OnTurnEnded -= UpdateTurnUI;
 
-        nextTurnButton.onClick.RemoveListener(() => GameEvents.RaiseOnNextTurnRequested());
+        _nextTurnButton.onClick.RemoveListener(() => GameEvents.RaiseOnNextTurnRequested());
     }
 
-    private void UpdateCashUI(float newCash)
+    private void UpdateCashUI(float cash)
     {
-        cashText.text = $"Stan konta: ${newCash:F2}";
+        _cashText.text = $"Stan konta: ${cash:F2}";
     }
 
     private void UpdateTurnUI(int turn)
     {
-        turnText.text = $"Tura: {turn + 1}";
+        _turnText.text = $"Tura: {turn + 1}";
     }
 }

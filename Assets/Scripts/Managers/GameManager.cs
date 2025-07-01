@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private MarketManager marketManager;
-    [SerializeField] private PlayerPortfolio playerPortfolio;
-    [SerializeField] private EventManager eventManager;
-    [SerializeField] private InvestmentAnalyzer investmentAnalyzer;
-    [SerializeField] private MarketUIController marketUIController;
+    [SerializeField] private MarketManager _marketManager;
+    [SerializeField] private PlayerPortfolio _playerPortfolio;
+    [SerializeField] private EventManager _eventManager;
+    [SerializeField] private InvestmentAnalyzer _investmentAnalyzer;
+    [SerializeField] private MarketUIController _marketUIController;
 
-    [SerializeField] private int maxTurns = 20;
-    private int currentTurn = 1;
+    [SerializeField] private int _maxTurns = 20;
+    private int _currentTurn = 1;
 
-    private bool isGameOver = false;
+    private bool _isGameOver = false;
 
     private void OnEnable()
     {
@@ -31,37 +31,35 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        marketManager.InitializeStocks();
-        playerPortfolio.Init(marketManager);
-        investmentAnalyzer.Init(marketManager, playerPortfolio);
-        marketUIController.GenerateStockUI(marketManager, playerPortfolio);
-        GameEvents.RaiseOnCashChanged(playerPortfolio.PlayerCash);
+        _marketManager.InitializeStocks();
+        _playerPortfolio.Init(_marketManager);
+        _investmentAnalyzer.Init(_marketManager, _playerPortfolio);
+        _marketUIController.GenerateStockUI(_marketManager, _playerPortfolio);
+        GameEvents.RaiseOnCashChanged(_playerPortfolio.PlayerCash);
     }
 
     private void NextTurn()
     {
-        if (isGameOver)
+        if (_isGameOver) return;
+
+        if (_currentTurn >= _maxTurns)
         {
-            return;
-        }
-        if (currentTurn >= maxTurns)
-        {
-            isGameOver = true;
+            _isGameOver = true;
             EndGame();
             return;
         }
-        GameEvents.RaiseOnTurnEnded(currentTurn);
-        marketManager.SetPreviousPrices();
-        eventManager.TryTriggerMarketEvent(marketManager);
-        marketManager.UpdateCurrentPrices();
-        marketManager.CommitPriceChanges();
-        currentTurn++;
+        GameEvents.RaiseOnTurnEnded(_currentTurn);
+        _marketManager.SetPreviousPrices();
+        _eventManager.TryTriggerMarketEvent(_marketManager);
+        _marketManager.UpdateCurrentPrices();
+        _marketManager.CommitPriceChanges();
+        _currentTurn++;
     }
 
     private void EndGame()
     {
-        isGameOver = true;
+        _isGameOver = true;
         GameEvents.RaiseOnGameEnded();
-        Debug.Log("Game Over! Total Turns: " + currentTurn);
+        Debug.Log("Game Over! Total Turns: " + _currentTurn);
     }
 }

@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class AutoScroll : MonoBehaviour
 {
-    private ScrollRect scrollRect;
+    private ScrollRect _scrollRect;
     [SerializeField] private float _scrollDelay = 0.05f;
 
     private void Awake()
     {
-        scrollRect = GetComponent<ScrollRect>();
+        _scrollRect = GetComponent<ScrollRect>();
     }
 
     private void OnEnable()
@@ -22,7 +22,7 @@ public class AutoScroll : MonoBehaviour
         GameHistory.OnEntryAdded -= ScrollToBottom;
     }
 
-    public void ScrollToBottom()
+    private void ScrollToBottom()
     {
         StartCoroutine(ScrollToBottomCoroutine());
     }
@@ -30,6 +30,6 @@ public class AutoScroll : MonoBehaviour
     private IEnumerator ScrollToBottomCoroutine()
     {
         yield return new WaitForSeconds(_scrollDelay);
-        scrollRect.verticalNormalizedPosition = 0f;
+        _scrollRect.verticalNormalizedPosition = 0f;
     }
 }

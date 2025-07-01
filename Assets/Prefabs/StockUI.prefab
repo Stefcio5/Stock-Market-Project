@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 8972733622359542481}
   - component: {fileID: 6907935642413715635}
   m_Layer: 0
-  m_Name: InputField (TMP)
+  m_Name: QuantityInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -484,16 +484,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2ee1cc20b9a74f43a6a1e5906003621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stockNameText: {fileID: 9012589036024815898}
-  trendText: {fileID: 5611538596170281349}
-  priceText: {fileID: 8447299714490513837}
-  ownedText: {fileID: 1744677359898611443}
-  averageBuyPriceText: {fileID: 4220077817323238467}
-  quantityInput: {fileID: 6907935642413715635}
-  minusButton: {fileID: 4670953952705961792}
-  plusButton: {fileID: 4470358163630682226}
-  buyButton: {fileID: 5090878498629970465}
-  sellButton: {fileID: 6990628332861429528}
+  _stockNameText: {fileID: 9012589036024815898}
+  _trendText: {fileID: 5611538596170281349}
+  _priceText: {fileID: 8447299714490513837}
+  _ownedText: {fileID: 1744677359898611443}
+  _averageBuyPriceText: {fileID: 4220077817323238467}
+  _quantityInput: {fileID: 6907935642413715635}
+  _minusButton: {fileID: 4670953952705961792}
+  _plusButton: {fileID: 4470358163630682226}
+  _buyButton: {fileID: 5090878498629970465}
+  _sellButton: {fileID: 6990628332861429528}
 --- !u!114 &3845782974575193230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2427,7 +2427,7 @@ GameObject:
   - component: {fileID: 8594909363820762191}
   - component: {fileID: 4220077817323238467}
   m_Layer: 0
-  m_Name: AverageBuyPrice
+  m_Name: AverageBuyPriceText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

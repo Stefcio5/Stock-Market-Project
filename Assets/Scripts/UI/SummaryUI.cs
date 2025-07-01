@@ -66,8 +66,7 @@ public class SummaryUI : MonoBehaviour
     private string FormatInvestmentText(string label, Stock stock, float profit)
     {
         string stockName = stock != null ? stock.stockData.stockName : "-";
-        string sign = profit >= 0 ? "+" : "";
-        return $"{label}: {stockName} - Zysk: ${sign}{profit:F2}";
+        return $"{label}: {stockName}: Zysk: ${profit:F2}";
     }
 
     private void PopulateHistory()
@@ -89,7 +88,7 @@ public class SummaryUI : MonoBehaviour
         else if (value < 0)
         {
             _finalPercentageProfitText.color = Color.red;
-            _finalPercentageProfitText.text = $"Zysk procentowy: {value:F2}%";
+            _finalPercentageProfitText.text = $"Strata procentowa: {value:F2}%";
         }
         else
         {
