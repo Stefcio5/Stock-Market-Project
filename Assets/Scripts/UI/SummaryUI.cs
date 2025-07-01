@@ -3,11 +3,18 @@ using UnityEngine;
 
 public class SummaryUI : MonoBehaviour
 {
-    [SerializeField] private GameHistory gameHistory;
-    [SerializeField] private GameObject summaryPanel;
+    [SerializeField] private GameHistory _gameHistory;
+    [SerializeField] private PlayerPortfolio _playerPortfolio;
+    [SerializeField] private GameObject _summaryPanel;
     [SerializeField] private TMP_Text summaryText;
-    [SerializeField] private Transform historyContent;
-    [SerializeField] private GameObject historyItemPrefab;
+    [SerializeField] private TMP_Text _finalCashText;
+    [SerializeField] private TMP_Text _finalPortfolioValueText;
+    [SerializeField] private TMP_Text _finalPercentageProfitText;
+    [SerializeField] private TMP_Text _bestInvestmentText;
+    [SerializeField] private TMP_Text _worstInvestmentText;
+
+    [SerializeField] private Transform _historyContent;
+    [SerializeField] private GameObject _historyContentPrefab;
 
     private void OnEnable()
     {
@@ -20,12 +27,48 @@ public class SummaryUI : MonoBehaviour
 
     private void ShowSummaryPanel()
     {
-        summaryPanel.SetActive(true);
-        summaryText.text = "Game Over!\n";
+        _summaryPanel.SetActive(true);
+        summaryText.text = "Koniec gry!";
+        _finalPortfolioValueText.text = FormatPortfolioValue();
+        UpdateFinalPercentageProfitText();
 
-        foreach (var entry in gameHistory.GetEntries())
+        var (bestStock, bestProfit, worstStock, worstProfit) = InvestmentAnalyzer.Instance.CalculateBestAndWorstInvestmentReturn();
+        UpdateBestAndWorstInvestments(bestStock, bestProfit, worstStock, worstProfit);
+
+        PopulateHistory();
+    }
+
+    private string FormatPortfolioValue()
+    {
+        float value = _playerPortfolio.PlayerCash + _playerPortfolio.GetTotalStockValue();
+        return $"Wartość portfela: ${value:F2}";
+    }
+
+    private void UpdateFinalPercentageProfitText()
+    {
+        float finalPercentageProfit = _playerPortfolio.GetProfitPercentage();
+        string sign = finalPercentageProfit > 0 ? "+" : "";
+        _finalPercentageProfitText.text = $"Zysk procentowy: {sign}{finalPercentageProfit:F2}%";
+    }
+
+    public void UpdateBestAndWorstInvestments(Stock bestStock, float bestProfit, Stock worstStock, float worstProfit)
+    {
+        _bestInvestmentText.text = FormatInvestmentText("Najlepsza inwestycja", bestStock, bestProfit);
+        _worstInvestmentText.text = FormatInvestmentText("Najgorsza inwestycja", worstStock, worstProfit);
+    }
+
+    private string FormatInvestmentText(string label, Stock stock, float profit)
+    {
+        string stockName = stock != null ? stock.stockData.stockName : "-";
+        string sign = profit >= 0 ? "+" : "";
+        return $"{label}: {stockName} - Zysk: {sign}${profit:F2}";
+    }
+
+    private void PopulateHistory()
+    {
+        foreach (var entry in _gameHistory.GetEntries())
         {
-            var go = Instantiate(historyItemPrefab, historyContent);
+            var go = Instantiate(_historyContentPrefab, _historyContent);
             go.GetComponentInChildren<TMP_Text>().text = entry;
         }
     }
