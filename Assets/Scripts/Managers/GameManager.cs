@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     {
         marketManager.InitializeStocks();
         playerPortfolio.Init(marketManager);
-        investmentAnalyzer.Init(marketManager);
+        investmentAnalyzer.Init(marketManager, playerPortfolio);
         marketUIController.GenerateStockUI(marketManager, playerPortfolio);
         GameEvents.RaiseOnCashChanged(playerPortfolio.PlayerCash);
     }

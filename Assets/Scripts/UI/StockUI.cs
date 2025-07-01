@@ -10,6 +10,7 @@ public class StockUI : MonoBehaviour
     public TextMeshProUGUI trendText;
     public TextMeshProUGUI priceText;
     public TextMeshProUGUI ownedText;
+    public TextMeshProUGUI averageBuyPriceText;
 
     public TMP_InputField quantityInput;
     public Button minusButton;
@@ -90,7 +91,8 @@ public class StockUI : MonoBehaviour
     private void UpdateUI()
     {
         priceText.text = $"Cena: ${stockInstance.CurrentPrice:F2}";
-        ownedText.text = $"Posiadane akcje: {stockInstance.OwnedShares}";
+        ownedText.text = $"Posiadane akcje: {portfolio.GetOwnedShares(stockInstance.stockData)}";
+        averageBuyPriceText.text = $"Średnia cena zakupu: ${portfolio.GetAverageBuyPrice(stockInstance.stockData):F2}";
         SetTrendText(stockInstance.GetTrend());
         buyButton.interactable = portfolio.CanBuyStock(stockInstance.stockData, quantity);
         sellButton.interactable = portfolio.CanSellStock(stockInstance.stockData, quantity);

@@ -9,6 +9,7 @@ public class InvestmentAnalyzer : MonoBehaviour
     [SerializeField] private List<TransactionEntry> transactionHistory = new List<TransactionEntry>();
     [SerializeField] private Dictionary<Stock, float> stockInvestmentReturns = new Dictionary<Stock, float>();
     private MarketManager marketManager;
+    private PlayerPortfolio playerPortfolio;
 
     public static InvestmentAnalyzer Instance;
 
@@ -24,9 +25,10 @@ public class InvestmentAnalyzer : MonoBehaviour
         }
     }
 
-    public void Init(MarketManager marketManager)
+    public void Init(MarketManager marketManager, PlayerPortfolio playerPortfolio)
     {
         this.marketManager = marketManager;
+        this.playerPortfolio = playerPortfolio;
         transactionHistory.Clear();
         stockInvestmentReturns.Clear();
     }
@@ -71,7 +73,7 @@ public class InvestmentAnalyzer : MonoBehaviour
                 .FindAll(entry => entry.stock == stock && !entry.isBought)
                 .Sum(entry => entry.pricePerUnit * entry.quantity);
 
-            float currentValue = stock.CurrentPrice * stock.OwnedShares;
+            float currentValue = stock.CurrentPrice * playerPortfolio.GetOwnedShares(stock.stockData);
 
             float profit = sold - bought + currentValue;
             stockInvestmentReturns[stock] = profit;
