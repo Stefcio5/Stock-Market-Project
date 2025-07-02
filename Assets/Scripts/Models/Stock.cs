@@ -28,10 +28,8 @@ public class Stock
         float demandSupplyRatio = CalculateDemandSupplyRatio();
         float demandFactor = 1f + ((demandSupplyRatio - 1f) * _demandFactorModifier);
 
-        CurrentPrice = Math.Max(1f, CurrentPrice * demandFactor);
+        CurrentPrice = Math.Max(1f, CurrentPrice * demandFactor * modifier);
         Debug.Log($"Demand Factor: {demandFactor}");
-
-        CurrentPrice = Math.Max(1f, CurrentPrice * modifier);
 
         ResetDemandAndSupply();
     }
